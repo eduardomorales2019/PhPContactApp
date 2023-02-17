@@ -1,3 +1,15 @@
+
+<!--  PHP  -->
+
+<?php
+
+if (file_exists("contacts.json")) {
+  $contacts = json_decode(file_get_contents("contacts.json"), true);
+} else {
+  $contacts = [];
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -31,7 +43,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand font-weight-bold" href="#">
-          <img class="img-fluid more" src="/static/contact-logo.png" />
+          <img class="img-fluid more" src="/Applications/XAMPP/xamppfiles/htdocs/contacts-app/static/contact-logo.png" />
           ContactsApp
         </a>
         <button
@@ -51,7 +63,7 @@
               <a class="nav-link" href="/contacts-app/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/contacts-app/add.html">Add Contact</a>
+              <a class="nav-link" href="add.php">Add Contact</a>
             </li>
           </ul>
         </div>
@@ -59,42 +71,43 @@
     </nav>
 
     <main>
+      
       <div class="container pt-4 p-3">
         <div class="row">
-          <div class="col-md-4 mb-3">
-            <div class="card text-center">
-              <div class="card-body">
-                <h3 class="card-title text-capitalize">Contact Name 1</h3>
-                <p class="m-2">987654321</p>
-                <a href="#" class="btn btn-secondary mb-2">Edit Contact</a>
-                <a href="#" class="btn btn-danger mb-2">Delete Contact</a>
-              </div>
-            </div>
-          </div>
 
-          <div class="col-md-4 mb-3">
-            <div class="card text-center">
-              <div class="card-body">
-                <h3 class="card-title text-capitalize">Contact Name 2</h3>
-                <p class="m-2">987654321</p>
-                <a href="#" class="btn btn-secondary mb-2">Edit Contact</a>
-                <a href="#" class="btn btn-danger mb-2">Delete Contact</a>
-              </div>
-            </div>
-          </div>
+<?php if (count($contacts) == 0 ):?>
 
+<div class="col-md-4 mx-auto">
+            <div class="card card-body text-center"> 
+              <p>No contacts saved yet</p>
+              <a href="add.php">Add One!</a>
+            </div>
+          </div>
+        <?php endif ?>
+
+          <!--  PHP   Se puede poner las {} llaves o en lugar el : y al final el endforach! --> 
+
+         <?php foreach ($contacts as $contact): ?>
           <div class="col-md-4 mb-3">
             <div class="card text-center">
               <div class="card-body">
-                <h3 class="card-title text-capitalize">Contact Name 3</h3>
-                <p class="m-2">987654321</p>
+                <h3 class="card-title text-capitalize"><?= $contact["name"] ?></h3>
+                <p class="m-2"><?= $contact["phone_number"] ?></p>
                 <a href="#" class="btn btn-secondary mb-2">Edit Contact</a>
                 <a href="#" class="btn btn-danger mb-2">Delete Contact</a>
               </div>
             </div>
           </div>
+        <?php endforeach ?>
+          <!--  END PHP  -->
+
+         
+         
+            </div>
+          </div>
+          
         </div>
-      </div>
+      
     </main>
   </body>
 </html>
